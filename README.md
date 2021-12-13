@@ -307,9 +307,53 @@ An application where we attempt to capture the `x` coordinate of the mouse right
 - The Yarn button uses `startTransition` to trigger the mouse capture.
 - The Camera button triggers the capture directly.
 
-Right after clicking, move the mouse. The Camera shows always consistent `x` values in all views.
+```tsx
+import { useState, startTransition } from "react";
 
-The Yarn, triggers tearing on the left column.
+function App() {
+  const [, setCapture] = useState(false);
+
+  const toggle = () => setCapture((x) => !x);
+
+  function transitionHandler() {
+    return startTransition(toggle);
+  }
+
+  return (
+    <div className="App">
+      <button onClick={transitionHandler}>
+        <Yarn />
+      </button>
+
+      <button onClick={toggle}>
+        <Snapshot />
+      </button>
+
+      <main>
+        <section>
+          <h2>Regular</h2>
+
+          <Coordinates />
+          <Coordinates />
+        </section>
+
+        <section>
+          <h2>Sync</h2>
+
+          <SyncCoordinates />
+          <SyncCoordinates />
+        </section>
+      </main>
+    </div>
+  );
+}
+```
+
+Immediately after clicking, move the mouse.
+
+- The Camera shows always consistent `x` values in all views.
+
+- The Yarn, triggers tearing on the left column.
 
 The right column uses `use-sync-external-store`, from the compatibility [npm package](https://www.npmjs.com/package/use-sync-external-store).
 
