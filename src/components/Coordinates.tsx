@@ -3,14 +3,17 @@ import {
   useSyncMousePosition
 } from "../hooks/useMousePosition";
 
-export const Coordinates = () => {
-  const value = useMousePosition();
-
+function syncSleep() {
   const start = performance.now();
-
   while (performance.now() - start < 50) {
     // no-op
   }
+}
+
+export const Coordinates = () => {
+  const value = useMousePosition();
+
+  syncSleep();
 
   return (
     <div>
@@ -22,11 +25,7 @@ export const Coordinates = () => {
 export const SyncCoordinates = () => {
   const value = useSyncMousePosition();
 
-  const start = performance.now();
-
-  while (performance.now() - start < 50) {
-    // no-op
-  }
+  syncSleep();
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { useRef, useCallback, useDebugValue } from "react";
+import { useRef, useCallback, useDebugValue, useEffect, useState } from "react";
 import { useSyncExternalStore } from "use-sync-external-store/shim";
 
 type Listener = () => void;
@@ -42,6 +42,7 @@ export const useMousePosition = () => {
     ref.current,
     (store) => `useMousePosition<x: ${store.value.x}>`
   );
+
   return ref.current.value.x;
 };
 
@@ -54,5 +55,6 @@ export const useSyncMousePosition = () => {
     ref.current,
     (store) => `useSyncMousePosition<x: ${store.value.x}>`
   );
+
   return useSyncExternalStore(ref.current.subscribe, getState);
 };
